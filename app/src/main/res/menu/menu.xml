@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/myMenu">
+
+    <item
+        android:id="@+id/miPrevious"
+        android:title="Settings"
+        android:icon="@drawable/rollback_foreground"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/miNext"
+        android:title="Give Feedback"
+        android:icon="@drawable/rollfront_foreground"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/miFavorites"
+        android:title="Favorites"
+        android:icon="@drawable/favorite"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/miSave"
+        android:title="Add To Cart"
+        android:icon="@drawable/ic_baseline_done_24"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/miCloseApp"
+        android:title="Close App"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/miGiveFeedback"
+        android:title="Give Feedback"
+        app:showAsAction="never" />
+</menu>
