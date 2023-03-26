@@ -49,7 +49,7 @@
             android:scaleType="fitCenter"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/add_image_icon" />
+            app:srcCompat="@drawable/notepad" />
 
         <TextView
             android:id="@+id/rvDate"

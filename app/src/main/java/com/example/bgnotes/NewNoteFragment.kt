@@ -1,6 +1,7 @@
 package com.example.bgnotes
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -38,6 +39,7 @@ class NewNoteFragment : Fragment() {
     private lateinit var db: NotesDatabase
     private lateinit var noteDao: NoteDao
     private lateinit var galleryLauncher: ActivityResultLauncher<String>
+    var label: String = "1"
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,13 +61,34 @@ class NewNoteFragment : Fragment() {
             galleryLauncher.launch("image/*")
         }
 
+
+        binding.tvPersonal.setOnClickListener {
+            label = "1"
+            binding.tvPersonal.setBackgroundColor(Color.BLUE)
+            binding.tvSchool.setBackgroundColor(Color.WHITE)
+            binding.tvWork.setBackgroundColor(Color.WHITE)
+        }
+        binding.tvSchool.setOnClickListener {
+            label = "2"
+            binding.tvSchool.setBackgroundColor(Color.RED)
+            binding.tvPersonal.setBackgroundColor(Color.WHITE)
+            binding.tvWork.setBackgroundColor(Color.WHITE)
+        }
+        binding.tvWork.setOnClickListener {
+            label = "3"
+            binding.tvWork.setBackgroundColor(Color.YELLOW)
+            binding.tvPersonal.setBackgroundColor(Color.WHITE)
+            binding.tvSchool.setBackgroundColor(Color.WHITE)
+        }
+
+
         binding.saveNoteBtn.setOnClickListener {
             val title = binding.textTitle.text.toString()
             val description = binding.textBody.text.toString()
             val dateFormat = SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault())
             val currentDate = Date()
             val dateText = dateFormat.format(currentDate)
-            val note = Note (title = title, description = description, date = dateText)
+            val note = Note (title = title, description = description, date = dateText, label = label)
 
             if (title.isEmpty() && description.isEmpty()) {
                 Toast.makeText(requireContext(), "Empty Note", Toast.LENGTH_SHORT).show()

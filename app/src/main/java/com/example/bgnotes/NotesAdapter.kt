@@ -32,6 +32,7 @@ class NoteAdapter(private var notes: List<Note>) :
         val currentNote = notes[position]
         selectedImageView=binding.rvPlaceHolder
         holder.bind(currentNote)
+
     }
 
     override fun getItemCount() = notes.size
@@ -42,6 +43,12 @@ class NoteAdapter(private var notes: List<Note>) :
             binding.rvTitle.text = note.title
             binding.rvDescription.text = note.description
             binding.rvDate.text = note.date
+
+            when(note.label){
+                "1" -> binding.rvCategory.text = "Personal"
+                "2" -> binding.rvCategory.text = "School"
+                "3" -> binding.rvCategory.text = "Work"
+            }
         }
     }
 }
