@@ -13,6 +13,9 @@ interface NoteDao {
     @Delete
     fun delete(note: Note)
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertWithDate(note: Note)
+
     @Insert
     fun addMultipleNotes (vararg notes: Note)
 }

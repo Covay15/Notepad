@@ -5,15 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bgnotes.databinding.FragmentMyNoteBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import room_database.NoteDao
 import room_database.Note
+import room_database.NotesDatabase
 
 class MyNoteFragment : Fragment() {
     private val notes = mutableListOf<Note>()
     private lateinit var noteAdapter: NoteAdapter
     private lateinit var noteDao: NoteDao
+    private lateinit var db: NotesDatabase
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,14 +37,25 @@ class MyNoteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMyNoteBinding.bind(view)
 
-        noteAdapter=NoteAdapter(notes)
-        binding.rvNotes.layoutManager = LinearLayoutManager (context)
+        noteAdapter = NoteAdapter(notes)
+        binding.rvNotes.layoutManager = LinearLayoutManager(context)
         binding.rvNotes.adapter = noteAdapter
+        db = NotesDatabase.invoke(requireContext())
 
-        binding.FLaddNotes.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.nav_container, NewNoteFragment()).addToBackStack(null).commit()
+        CoroutineScope(Dispatchers.IO).launch {
+            val notes = db.getnoteDao().getAllNotes()
 
+            withContext(Dispatchers.Main) {
+                noteAdapter.updateData(notes)
+
+                binding.FLaddNotes.setOnClickListener {
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.nav_container, NewNoteFragment()).addToBackStack(null)
+                        .commit()
+
+                }
+
+            }
         }
-
     }
 }

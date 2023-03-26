@@ -18,6 +18,8 @@ import kotlinx.coroutines.launch
 import room_database.Note
 import room_database.NoteDao
 import room_database.NotesDatabase
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NewNoteFragment : Fragment() {
     override fun onCreateView(
@@ -42,7 +44,7 @@ class NewNoteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewNoteBinding.bind(view)
         selectedImageView=binding.imgNote
-        db = NotesDatabase.invoke(requireContext()) // initialize the db property here
+        db = NotesDatabase.invoke(requireContext())
 
 
         galleryLauncher =
@@ -60,7 +62,10 @@ class NewNoteFragment : Fragment() {
         binding.saveNoteBtn.setOnClickListener {
             val title = binding.textTitle.text.toString()
             val description = binding.textBody.text.toString()
-            val note = Note (title = title, description = description)
+            val dateFormat = SimpleDateFormat("dd-MMM-yyyy hh:mm a", Locale.getDefault())
+            val currentDate = Date()
+            val dateText = dateFormat.format(currentDate)
+            val note = Note (title = title, description = description, date = dateText)
 
             if (title.isEmpty() && description.isEmpty()) {
                 Toast.makeText(requireContext(), "Empty Note", Toast.LENGTH_SHORT).show()
