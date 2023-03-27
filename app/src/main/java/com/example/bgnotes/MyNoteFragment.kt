@@ -7,6 +7,7 @@ import android.widget.ImageView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bgnotes.databinding.FragmentMyNoteBinding
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,6 +38,28 @@ class MyNoteFragment : Fragment() {
     private lateinit var binding: FragmentMyNoteBinding
 
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.miLogout -> {
+                FirebaseAuth.getInstance().signOut()
+                requireActivity().supportFragmentManager.beginTransaction().replace(R.id.nav_container, loginFragment()).addToBackStack(null).commit()
+            }
+            R.id.personal -> {
+                personalNotesRecyclerView()
+            }
+            R.id.school -> {
+                schoolNotesRecyclerView()
+            }
+            R.id.work -> {
+                workNotesRecyclerView()
+            }
+            R.id.allNotes -> {
+                allNotesRecyclerView()
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
@@ -60,6 +83,65 @@ class MyNoteFragment : Fragment() {
 
                 }
 
+            }
+        }
+    }
+    private fun personalNotesRecyclerView() {
+        noteAdapter = NoteAdapter(notes)
+        binding.rvNotes.layoutManager = LinearLayoutManager(context)
+        binding.rvNotes.adapter = noteAdapter
+        db = NotesDatabase.invoke(requireContext())
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val notes = db.getnoteDao().getPersonalNotes()
+
+            withContext(Dispatchers.Main) {
+                noteAdapter.updateData(notes)
+            }
+        }
+    }
+
+    private fun schoolNotesRecyclerView() {
+        noteAdapter = NoteAdapter(notes)
+        binding.rvNotes.layoutManager = LinearLayoutManager(context)
+        binding.rvNotes.adapter = noteAdapter
+        db = NotesDatabase.invoke(requireContext())
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val notes = db.getnoteDao().getSchoolNotes()
+
+            withContext(Dispatchers.Main) {
+                noteAdapter.updateData(notes)
+            }
+        }
+    }
+
+    private fun workNotesRecyclerView() {
+        noteAdapter = NoteAdapter(notes)
+        binding.rvNotes.layoutManager = LinearLayoutManager(context)
+        binding.rvNotes.adapter = noteAdapter
+        db = NotesDatabase.invoke(requireContext())
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val notes = db.getnoteDao().getWorkNotes()
+
+            withContext(Dispatchers.Main) {
+                noteAdapter.updateData(notes)
+            }
+        }
+    }
+
+    private fun allNotesRecyclerView() {
+        noteAdapter = NoteAdapter(notes)
+        binding.rvNotes.layoutManager = LinearLayoutManager(context)
+        binding.rvNotes.adapter = noteAdapter
+        db = NotesDatabase.invoke(requireContext())
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val notes = db.getnoteDao().getAllNotes()
+
+            withContext(Dispatchers.Main) {
+                noteAdapter.updateData(notes)
             }
         }
     }
