@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_menu">
+    <item
+        android:id="@+id/miSearch"
+        android:title="Search"
+        android:icon="@drawable/search_foreground"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/miFilter"
+        android:title="Filter"
+        android:icon="@drawable/filter_foreground"
+        app:showAsAction="always" >
+
+        <menu>
+
+            <item
+                android:id="@+id/allNotes"
+                android:title="All notes"/>
+
+            <item
+                android:id="@+id/personal"
+                android:title="Personal"/>
+
+            <item
+                android:id="@+id/work"
+                android:title="Work"/>
+
+            <item
+                android:id="@+id/school"
+                android:title="School"/>
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/miLogout"
+        android:title="Logout"
+        app:showAsAction="never" />
+</menu>
